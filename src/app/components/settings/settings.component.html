@@ -1,0 +1,76 @@
+<button class="btn btn-success float-left" (click)="onCreateButtonClick()">افزودن لیست جدید</button>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">عنوان</th>
+      <th scope="col">محتوا</th>
+      <th scope="col">عملیات</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let stopword of stopwords" (click)="selectStopword(stopword)">
+      <th scope="row">{{stopword.id}}</th>
+      <td>{{stopword.title}}</td>
+      <td>{{stopword.content}}</td>
+      <td><button class="btn btn-primary" (click)="onRemove(stopword)">حذف</button></td>
+    </tr>
+
+  </tbody>
+</table>
+<div class="row" *ngIf="createItem">
+  <div class="col-md-6">
+    <form>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field>
+            <input matInput [(ngModel)]="newStopword.title" name="selectedTitle">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field>
+            <input class="ltr text-left" matInput [(ngModel)]="newStopword.content" name="selectedContent">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-warning" (click)="onCreate(newStopword)">تأیید</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6" *ngIf="newStopword.content">
+    <ul>
+      <li *ngFor="let word of newStopword.content.split(',')">{{word}}</li>
+    </ul>
+  </div>
+</div>
+<div class="row" *ngIf="selectedStopword">
+  <div class="col-md-6">
+    <form>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field>
+            <input matInput [(ngModel)]="selectedStopword.title" name="selectedTitle">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field>
+            <input class="ltr text-left" matInput [(ngModel)]="selectedStopword.content" name="selectedContent">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-warning" (click)="onUpdate(selectedStopword)">تأیید</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<button class="btn btn-primary float-left" [routerLink]="['/dashboard']">بازگشت</button>

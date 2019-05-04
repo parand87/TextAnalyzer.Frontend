@@ -1,0 +1,109 @@
+<div class="card m-5">
+  
+  <div class="card-body">
+    <div clsas="row mb-5">
+      <div class="col-md-12 text-left">
+          <button class="btn btn-primary btn-sm" [routerLink]="['/settings']">تنظیمات</button>
+      </div>
+    </div>
+    <form>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field>
+            <textarea matInput placeholder="متن مورد پردازش" [(ngModel)]="text" name="text"> </textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-checkbox [(ngModel)]="useStopwords" name="stopword">استفاده از لیست توقف</mat-checkbox>
+        </div>
+        <div class="col-md-6" *ngIf="useStopwords">
+          <mat-form-field>
+            <mat-label>عناوین لیست توقف</mat-label>
+            <mat-select [(value)]="selectedStopwordList">
+              <mat-option *ngFor="let stopword of stopwords" [value]="stopword">
+                {{stopword.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p *ngIf="selectedStopwordList">{{selectedStopwordList.content}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-checkbox [(ngModel)]="useMinWordLen" name="useMinWordLen">محدودیت طول کلمه</mat-checkbox>
+        </div>
+        <div class="col-md-6" *ngIf="useMinWordLen">
+          <mat-form-field>
+            <input matInput type="number" min="1" [(ngModel)]="minWordLen" name="minWordLen"
+              placeholder="حداقل تعداد حروف هر کلمه">
+          </mat-form-field>
+          <span><small class="text-danger">حداقل مقدار ۱ است.</small></span>
+        </div>
+        <div class="col-md-12">
+          <mat-checkbox [(ngModel)]="parseConnectedWords" name="parseConnectedWords">تجزیه کلمات متصل</mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-primary m-2" (click)="onAnalyze()">پردازش</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="card m-5" *ngIf="analyzeResult">
+  <div class="card-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <dl class="row">
+            <div class="col-sm-4 text-sm-left">
+              <dt>طولانی‌ترین کلمات:</dt>
+            </div>
+            <div class="col-sm-8 text-sm-right">
+              <dd class="mb-1"><span class="label label-primary">{{analyzeResult.longestWords}}</span></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <dl class="row">
+            <div class="col-sm-4 text-sm-left">
+              <dt>تکراری‌ترین کلمات:</dt>
+            </div>
+            <div class="col-sm-8 text-sm-right">
+              <dd class="mb-1"><span class="label label-primary">{{analyzeResult.mostRepetitiveWords}}</span></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <dl class="row">
+            <div class="col-sm-4 text-sm-left">
+              <dt>تعداد کلمات:</dt>
+            </div>
+            <div class="col-sm-8 text-sm-right">
+              <dd class="mb-1"><span class="label label-primary">{{analyzeResult.textWordCount}}</span></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <dl class="row">
+            <div class="col-sm-4 text-sm-left">
+              <dt>تعداد کلمات متمایز:</dt>
+            </div>
+            <div class="col-sm-8 text-sm-right">
+              <dd class="mb-1"><span class="label label-primary">{{analyzeResult.distinctTextWordCount}}</span></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
